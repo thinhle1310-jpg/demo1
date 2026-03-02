@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MiniShop</title>
+  <link rel="stylesheet" href="demo.css" />
+</head>
+
+<body>
+  <!-- =========================
+    [A] HEADER / TOPBAR (2 ROWS)
+    - Row 1: Logo + Trang chủ/Liên hệ + City + Cart + Login
+    - Row 2: Danh mục + Search (khi cuộn chỉ hiện Row 2)
+  ========================== -->
+  <header class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <!-- ROW 1 -->
+      <div class="topbar-row topbar-row-1" id="topbarRow1">
+        <a class="brand" href="#home" aria-label="MiniShop">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span class="brand-text">MiniShop</span>
+        </a>
+
+        <nav class="navlinks" aria-label="Điều hướng">
+          <a class="navlink is-active" href="#home" id="navHome">🏠 <span>Trang chủ</span></a>
+          <a class="navlink" href="#contact" id="navContact">✉️ <span>Liên hệ</span></a>
+          <button class="navchip" type="button" id="btnCity">📍 <span>Hồ Chí Minh</span> ▾</button>
+        </nav>
+
+        <div class="topbar-right">
+          <button class="navchip cart" type="button" id="btnCart">
+            🛒 <span>Giỏ hàng</span> <b class="badge" id="cartCount">0</b>
+          </button>
+          <button class="btn btn-primary btn-login" type="button" id="btnLogin">Đăng nhập 👤</button>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="topbar-row topbar-row-2" id="topbarRow2">
+        <button class="navchip" type="button" id="btnCategory">▦ <span>Danh mục</span> ▾</button>
+
+        <div class="searchbox">
+          <span class="search-ic">🔎</span>
+          <input id="searchInput" type="search" placeholder="Bạn muốn mua gì hôm nay?" />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+    [B] CATEGORY PANEL (ẩn/hiện)
+  ========================== -->
+  <div class="category-panel" id="categoryPanel" aria-hidden="true">
+    <div class="category-inner">
+      <a class="cat-item" href="#products" data-cat="phone"><span class="cat-ico">📱</span>Điện thoại, Tablet <span class="cat-arrow">›</span></a>
+      <a class="cat-item" href="#products" data-cat="laptop"><span class="cat-ico">💻</span>Laptop <span class="cat-arrow">›</span></a>
+      <a class="cat-item" href="#products" data-cat="audio"><span class="cat-ico">🎧</span>Âm thanh, Mic thu âm <span class="cat-arrow">›</span></a>
+      <a class="cat-item" href="#products" data-cat="watch"><span class="cat-ico">⌚</span>Đồng hồ, Camera <span class="cat-arrow">›</span></a>
+      <a class="cat-item" href="#products" data-cat="accessory"><span class="cat-ico">🔌</span>Phụ kiện <span class="cat-arrow">›</span></a>
+      <a class="cat-item" href="#products" data-cat="pc"><span class="cat-ico">🖥️</span>PC, Màn hình <span class="cat-arrow">›</span></a>
+      <a class="cat-item" href="#products" data-cat="promo"><span class="cat-ico">🧾</span>Khuyến mãi <span class="cat-arrow">›</span></a>
+    </div>
+  </div>
+
+  <main class="main" id="home">
+    <!-- =========================
+      [C] HERO
+    ========================== -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-left">
+          <h1>Cửa hàng công nghệ</h1>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#products" id="btnGoProducts">Xem sản phẩm</a>
+            <button class="btn btn-outline" id="btnClearCart" type="button">Xóa giỏ hàng</button>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-top">
+            <div class="pill">Thông tin chi tiết giỏ hàng</div>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-num" id="statItems">0</div>
+              <div class="stat-label">Trong giỏ</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num" id="statTotal">0đ</div>
+              <div class="stat-label">Tổng tiền</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+      [D] PRODUCTS
+    ========================== -->
+    <section id="products" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="productsTitle">Sản phẩm nổi bật</h2>
+
+          <label class="sort">
+            <span class="sort-label">Sắp xếp</span>
+            <select id="sortSelect" class="sort-select">
+              <option value="default" selected disabled>Chọn kiểu sắp xếp</option>
+              <option value="price-asc">Giá: Thấp → Cao</option>
+              <option value="price-desc">Giá: Cao → Thấp</option>
+              <option value="name-asc">Tên: A → Z</option>
+              <option value="name-desc">Tên: Z → A</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid" id="productGrid"></div>
+
+        <!-- Pagination (trang trí) -->
+        <div class="pagination" aria-hidden="true">
+          <button class="page-btn is-active" type="button">1</button>
+          <button class="page-btn" type="button">2</button>
+          <button class="page-btn" type="button">3</button>
+          <button class="page-btn" type="button">4</button>
+          <button class="page-btn" type="button">5</button>
+          <span class="page-dots">…</span>
+          <button class="page-btn" type="button">›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+      [E] CONTACT (2 cột)
+    ========================== -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="contact-title">Liên hệ</h2>
+
+        <div class="contact-grid">
+          <!-- LEFT: Thông tin -->
+          <aside class="contact-info" aria-label="Thông tin liên hệ">
+            <h3>Thông tin</h3>
+            <ul class="info-list">
+              <li class="info-item">
+                <span class="info-ic">📍</span>
+                <div>
+                  <div class="info-label">Địa chỉ</div>
+                  <div class="info-text">Hồ Chí Minh, Việt Nam</div>
+                </div>
+              </li>
+
+              <li class="info-item">
+                <span class="info-ic">📞</span>
+                <div>
+                  <div class="info-label">Hotline</div>
+                  <a class="info-link" href="tel:0900000000">0900 000 000</a>
+                </div>
+              </li>
+
+              <li class="info-item">
+                <span class="info-ic">✉️</span>
+                <div>
+                  <div class="info-label">Email</div>
+                  <a class="info-link" href="mailto:support@minishop.vn">support@minishop.vn</a>
+                </div>
+              </li>
+            </ul>
+          </aside>
+
+          <!-- RIGHT: Form -->
+          <div class="contact-form" aria-label="Gửi liên hệ">
+            <form id="contactForm">
+              <div class="contact-row">
+                <div class="field">
+                  <label for="cName">Họ tên</label>
+                  <input id="cName" type="text" placeholder="Nhập họ tên..." required>
+                </div>
+
+                <div class="field">
+                  <label for="cEmail">Email</label>
+                  <input id="cEmail" type="email" placeholder="example@gmail.com" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="cMsg">Nội dung</label>
+                <textarea id="cMsg" rows="6" placeholder="Bạn muốn hỏi gì?" required></textarea>
+              </div>
+
+              <button class="btn btn-primary contact-btn" type="submit">Gửi</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <!-- =========================
+    [F] PRODUCT MODAL
+  ========================== -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="modal"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Chi tiết sản phẩm">
+      <div class="modal-head">
+        <h3 id="modalTitle">Chi tiết</h3>
+        <button class="icon-btn" data-close="modal" type="button">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-image">
+          <img id="modalImg" class="modal-img" src="" alt="" loading="lazy">
+        </div>
+        <div class="modal-info">
+          <div class="price" id="modalPrice">0đ</div>
+          <p class="muted" id="modalDesc">Mô tả...</p>
+
+          <div class="qty-row">
+            <button class="qty-btn" id="qtyMinus" type="button">−</button>
+            <input class="input qty-input" id="qtyInput" type="number" min="1" value="1" />
+            <button class="qty-btn" id="qtyPlus" type="button">+</button>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="modalAddToCart" type="button">Thêm vào giỏ</button>
+            <button class="btn btn-outline" data-close="modal" type="button">Đóng</button>
+          </div>
+
+          <div class="muted small" id="modalHint"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+    [G] CART DRAWER
+  ========================== -->
+  <aside class="drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close="cart"></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Giỏ hàng">
+      <div class="drawer-head">
+        <h3>Giỏ hàng</h3>
+        <button class="icon-btn" data-close="cart" type="button">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <div id="cartList" class="cart-list"></div>
+
+        <div class="cart-summary">
+          <div class="row">
+            <span>Tạm tính</span>
+            <strong id="cartSubtotal">0đ</strong>
+          </div>
+          <div class="row muted small">
+            <span>Ghi chú</span>
+            <span>Demo, chưa thanh toán thật</span>
+          </div>
+
+          <div class="drawer-actions">
+            <button class="btn btn-outline" id="btnClearCart2" type="button">Xóa giỏ</button>
+            <button class="btn btn-primary" id="btnCheckout" type="button">Thanh toán</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =========================
+    [H] FOOTER
+  ========================== -->
+  <footer class="footer">
+    <div class="container footer-row">
+      <span>© <span id="year"></span> MiniShop</span>
+    </div>
+  </footer>
+
+  <!-- =========================
+    [I] AUTH WRAP (IFRAME login.html)
+  ========================== -->
+  <div class="authwrap" id="authWrap" aria-hidden="true">
+    <div class="authwrap-backdrop" data-authwrap-close="1"></div>
+    <div class="authwrap-panel" role="dialog" aria-modal="true" aria-label="Đăng nhập">
+      <iframe class="authwrap-frame" id="authFrame" src="login.html" title="Đăng nhập"></iframe>
+    </div>
+  </div>
+
+  <script src="demo.js"></script>
+</body>
+</html>
